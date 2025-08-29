@@ -35,16 +35,29 @@ def process_data(data_array):
         # Alphabets (whole words)
         elif item.isalpha():
             alphabets.append(item.upper())
-            alpha_for_concat.extend(list(item))  # store original case for concat string
+            alpha_for_concat.extend(list(item))  # preserve original case for alternating caps
 
         # Special characters
         else:
             special_characters.append(item)
 
-    # Build reversed concatenated string (preserve original case)
-    concat_string = "".join(alpha_for_concat[::-1])
+    # Build alternating caps reversed string
+    reversed_alpha = list("".join(alpha_for_concat))[::-1]
+    concat_chars = []
+    for i, ch in enumerate(reversed_alpha):
+        concat_chars.append(ch.upper() if i % 2 == 0 else ch.lower())
+    concat_string = "".join(concat_chars)
 
     return odd_numbers, even_numbers, alphabets, special_characters, str(total_sum), concat_string, True, None
+
+
+# ✅ Health check / root route (so opening base URL doesn't give 404)
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({
+        "message": "Server is running 🚀. Use POST /bfhl with JSON data."
+    })
+
 
 @app.route('/bfhl', methods=['POST'])
 def bfhl():
@@ -99,12 +112,6 @@ def bfhl():
             "error": f"Unexpected error: {str(e)}"
         }), 500
 
-# Add GET /bfhl for health-check
-@app.route('/bfhl', methods=['GET'])
-def bfhl_get():
-    return jsonify({
-        "operation_code": 1
-    }), 200
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))  # use hosting port if available
