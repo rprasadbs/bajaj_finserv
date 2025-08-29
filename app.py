@@ -50,6 +50,15 @@ def process_data(data_array):
 
     return odd_numbers, even_numbers, alphabets, special_characters, str(total_sum), concat_string, True, None
 
+
+# ✅ Health check / root route (so opening base URL doesn't give 404)
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({
+        "message": "Server is running 🚀. Use POST /bfhl with JSON data."
+    })
+
+
 @app.route('/bfhl', methods=['POST'])
 def bfhl():
     try:
@@ -102,6 +111,7 @@ def bfhl():
             "roll_number": FIXED_ROLL_NUMBER,
             "error": f"Unexpected error: {str(e)}"
         }), 500
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))  # use hosting port if available
