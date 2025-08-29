@@ -59,6 +59,7 @@ def home():
     })
 
 
+# ✅ POST /bfhl route
 @app.route('/bfhl', methods=['POST'])
 def bfhl():
     try:
@@ -111,6 +112,12 @@ def bfhl():
             "roll_number": FIXED_ROLL_NUMBER,
             "error": f"Unexpected error: {str(e)}"
         }), 500
+
+
+# ✅ GET /bfhl route
+@app.route('/bfhl', methods=['GET'])
+def bfhl_get():
+    return jsonify({"operation_code": 1})
 
 
 if __name__ == '__main__':
