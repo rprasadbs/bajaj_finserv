@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask import render_template
 import os
 
 app = Flask(__name__)
@@ -118,6 +119,10 @@ def bfhl():
 @app.route('/bfhl', methods=['GET'])
 def bfhl_get():
     return jsonify({"operation_code": 1})
+
+@app.route("/ui", methods=["GET"])
+def ui():
+    return render_template("index.html")
 
 
 if __name__ == '__main__':
