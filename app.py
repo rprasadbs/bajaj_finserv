@@ -125,14 +125,10 @@ def bfhl_get():
 def ui():
     return render_template("index.html")
 
+import os
 
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Render assigns a port dynamically
-    # Detect if running on Render or locally
-    render_url = os.environ.get("RENDER_EXTERNAL_URL")  # Render sets this
-    if render_url:
-        print(f"🚀 Server running! UI available at: {render_url}/ui")
-    else:
-        print(f"🚀 Server running locally! Open: http://localhost:{port}/ui")
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    print(f"🚀 App running! Access the UI at: https://bajaj-finserv-k2q9.onrender.com/ui")
+    app.run(host="0.0.0.0", port=port)
 
-    app.run(debug=True, host='0.0.0.0', port=port)
