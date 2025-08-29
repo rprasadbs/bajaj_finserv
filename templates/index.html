@@ -1,1 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BFHL Mini Project UI</title>
+</head>
+<body>
+  <h2>BFHL API UI</h2>
+  <form id="dataForm">
+    <label>Enter data (comma separated):</label><br>
+    <input type="text" id="dataInput" placeholder="e.g. A,1,2,@,B">
+    <button type="submit">Submit</button>
+  </form>
 
+  <h3>Response:</h3>
+  <pre id="responseBox"></pre>
+
+  <script>
+    document.getElementById("dataForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const inputVal = document.getElementById("dataInput").value.split(",");
+      const payload = { data: inputVal.map(item => item.trim()) };
+
+      // 🔑 Auto-detect backend URL
+      const baseUrl = window.location.origin;  
+      // This will be "http://localhost:5000" locally, and
+      // "https://bajaj-finserv-k2q9.onrender.com" when deployed
+
+      let res = await fetch(`${baseUrl}/bfhl`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      let json = await res.json();
+      document.getElementById("responseBox").textContent = JSON.stringify(json, null, 2);
+    });
+  </script>
+</body>
+</html>
