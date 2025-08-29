@@ -1,1 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bajaj Finserv BFHL Project</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    .container { max-width: 600px; margin: auto; }
+    textarea { width: 100%; height: 80px; margin-bottom: 1rem; }
+    button { padding: 10px 20px; background: #007BFF; color: white; border: none; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    pre { background: #f4f4f4; padding: 1rem; border-radius: 8px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>BFHL Data Processor</h2>
+    <p>Enter an array of strings (JSON format):</p>
+    <textarea id="inputData">["a","1","334","4","R","$"]</textarea>
+    <button onclick="sendRequest()">Submit</button>
+    <h3>Response:</h3>
+    <pre id="response"></pre>
+  </div>
+
+  <script>
+    async function sendRequest() {
+      const input = document.getElementById("inputData").value;
+      try {
+        const response = await fetch("/bfhl", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ data: JSON.parse(input) })
+        });
+        const result = await response.json();
+        document.getElementById("response").textContent = JSON.stringify(result, null, 2);
+      } catch (err) {
+        document.getElementById("response").textContent = "Error: " + err;
+      }
+    }
+  </script>
+</body>
+</html>
 
